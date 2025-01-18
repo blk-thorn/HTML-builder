@@ -2,11 +2,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const filePath = path.join(__dirname, 'text.txt');
-const writeStream = fs.createWriteStream(filePath, { flags: 'a' });
+const writeStream = fs.createWriteStream(filePath, { flags: 'w' });
 
 const readline = require('readline');
 
-console.log('Enter text (or type \'exit\' to exit):');
+console.log('Enter text or type \'exit\' to exit:');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,7 +15,6 @@ const rl = readline.createInterface({
 
 rl.on('line', (input) => {
   if (input.trim() === 'exit') {
-    console.log('Goodbye!');
     rl.close();
     writeStream.end(); // Закрываем запись
     return; // Выходим, чтобы не пытаться записать после закрытия
@@ -24,7 +23,7 @@ rl.on('line', (input) => {
 });
 
 rl.on('close', () => {
-  console.log('Exiting the program');
+  console.log('Exiting the program. Goodbye!');
 });
 
 process.on('SIGINT', () => {
